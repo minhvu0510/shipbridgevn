@@ -1,171 +1,150 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type Lang = "en" | "vi";
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
-  const [visible, setVisible] = useState(false);
-
-  const [form, setForm] = useState({
-    origin: "",
-    destination: "",
-    weight: "",
-  });
-
-  useEffect(() => {
-    setVisible(true);
-  }, []);
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    await fetch("https://script.google.com/macros/s/AKfycbwrXQY0KTMaKiLu9PPxu5nFHqO1UtMy3QQs6You1EG_coWG9C_1uDpdE91kA6H2_qbh/exec", {
-      method: "POST",
-      body: JSON.stringify(form),
-    });
-
-    alert("Request sent!");
-    setForm({ origin: "", destination: "", weight: "" });
-  };
 
   const text = {
     en: {
       headline: "Freight Forwarding Made Simple",
-      sub: "Compare quotes & ship smarter",
+      sub: "Connect with trusted forwarders. Get quotes. Ship smarter.",
       getQuote: "Get Quote",
+
+      aboutTitle: "About ShipBridge",
+      aboutDesc:
+        "ShipBridge is a logistics marketplace connecting SMEs with verified forwarders, helping businesses find the most efficient and cost-effective shipping solutions.\n\nOur mission is to empower small businesses with access to professional logistics services.\n\nOur vision is to become the leading logistics marketplace in Southeast Asia, starting with the China - Vietnam corridor.",
+
+      whyTitle: "Why Choose ShipBridge",
+      why: [
+        "Transparent Pricing",
+        "Verified Forwarders",
+        "Fast Quotes",
+        "Save Cost",
+        "Centralized Platform",
+        "China-Vietnam Focus",
+      ],
     },
+
     vi: {
-      headline: "Đơn giản hóa vận chuyển",
-      sub: "So sánh giá & tối ưu chi phí",
+      headline: "Đơn giản hóa vận chuyển quốc tế",
+      sub: "Kết nối forwarder uy tín. Nhận báo giá nhanh. Tối ưu chi phí.",
       getQuote: "Nhận báo giá",
+
+      aboutTitle: "Về ShipBridge",
+      aboutDesc:
+        "ShipBridge là nền tảng kết nối SME với các forwarder uy tín, giúp tối ưu chi phí vận chuyển và minh bạch báo giá.\n\nSứ mệnh của chúng tôi là giúp doanh nghiệp nhỏ tiếp cận dịch vụ logistics chuyên nghiệp.\n\nTầm nhìn của ShipBridge là trở thành nền tảng logistics marketplace hàng đầu Đông Nam Á, bắt đầu từ tuyến Trung Quốc - Việt Nam.",
+
+      whyTitle: "Tại sao chọn ShipBridge",
+      why: [
+        "Giá minh bạch",
+        "Forwarder đã xác minh",
+        "Báo giá nhanh",
+        "Tiết kiệm chi phí",
+        "Quản lý tập trung",
+        "Tập trung tuyến Trung - Việt",
+      ],
     },
   };
 
   const t = text[lang];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white text-black">
+      {/* NAVBAR */}
+      <div className="flex justify-between items-center px-10 py-6 sticky top-0 bg-white z-50 shadow-sm">
+        {/* LOGO */}
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-[220px] h-auto"
+        />
 
-      {/* STICKY NAVBAR */}
-      <header className="sticky top-0 bg-white z-50 flex justify-between items-center px-8 py-4 shadow">
-
-        <div className="flex items-center gap-3">
-          <Image src="/logo.png" width={60} height={60} alt="logo" />
-          <span className="text-2xl font-bold text-[#5A3E2B]">ShipBridge</span>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <a className="font-bold text-[#5A3E2B]" href="#about">About</a>
-          <a className="font-bold text-[#5A3E2B]" href="#why">Why Us</a>
+        {/* MENU */}
+        <div className="flex items-center gap-6 font-semibold text-[#4b2e2e]">
+          <span>About</span>
+          <span>Why Us</span>
+          <span>Contact</span>
 
           <button
             onClick={() => setLang(lang === "en" ? "vi" : "en")}
-            className="border px-3 py-1 rounded"
+            className="ml-4 text-black"
           >
             {lang === "en" ? "VI" : "EN"}
           </button>
 
-          <button className="bg-[#5A3E2B] text-white px-4 py-2 rounded">
+          <button className="bg-[#4b2e2e] text-white px-4 py-2 rounded-xl">
             {t.getQuote}
           </button>
         </div>
-      </header>
+      </div>
 
       {/* HERO */}
-      <section
-        className={`h-screen flex flex-col justify-center items-center text-white text-center transition-all duration-1000 ${
-          visible ? "opacity-100" : "opacity-0 translate-y-10"
-        }`}
+      <div
+        className="h-[80vh] flex flex-col justify-center items-center text-center px-6"
         style={{
           backgroundImage: "url('/main-background.jpg')",
           backgroundSize: "cover",
         }}
       >
-        <h1 className="text-5xl font-bold mb-4">{t.headline}</h1>
-        <p className="mb-8">{t.sub}</p>
+        <h1 className="text-5xl font-bold mb-6">{t.headline}</h1>
+        <p className="text-lg mb-8">{t.sub}</p>
 
         {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white text-black p-6 rounded-xl flex gap-4 shadow-lg"
-        >
+        <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4">
           <input
             placeholder="Origin"
-            className="border p-2 rounded"
-            value={form.origin}
-            onChange={(e) => setForm({ ...form, origin: e.target.value })}
+            className="border p-3 rounded-lg"
           />
-
           <input
             placeholder="Destination"
-            className="border p-2 rounded"
-            value={form.destination}
-            onChange={(e) => setForm({ ...form, destination: e.target.value })}
+            className="border p-3 rounded-lg"
           />
-
           <input
             placeholder="Weight (kg)"
-            className="border p-2 rounded"
-            value={form.weight}
-            onChange={(e) => setForm({ ...form, weight: e.target.value })}
+            className="border p-3 rounded-lg"
           />
 
-          <button className="bg-[#5A3E2B] text-white px-4 rounded">
+          <button className="bg-[#4b2e2e] text-white px-6 py-3 rounded-lg">
             {t.getQuote}
           </button>
-        </form>
-      </section>
+        </div>
+      </div>
 
       {/* ABOUT */}
-      <section
-        id="about"
-        className={`py-20 px-8 transition-all duration-1000 ${
-          visible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
-          <Image src="/about-us.jpg" width={500} height={300} alt="about" />
-
-          <div>
-            <h2 className="text-3xl font-bold text-[#5A3E2B] mb-4">
-              About ShipBridge
-            </h2>
-            <p>Marketplace kết nối SME với forwarder uy tín.</p>
-          </div>
-        </div>
-      </section>
+      <div className="px-10 py-20 bg-[#faf6f2]">
+        <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
+        <p className="text-gray-700 whitespace-pre-line max-w-3xl">
+          {t.aboutDesc}
+        </p>
+      </div>
 
       {/* WHY */}
-      <section id="why" className="bg-gray-100 py-20 px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-[#5A3E2B] mb-10">
-            Why Choose ShipBridge?
-          </h2>
+      <div className="px-10 py-20">
+        <h2 className="text-3xl font-bold mb-10">{t.whyTitle}</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              "Transparent Pricing",
-              "Verified Forwarders",
-              "Fast Quotes",
-              "Save Cost",
-              "Centralized",
-              "China-Vietnam Focus",
-            ].map((item, i) => (
-              <div key={i} className="bg-[#F3E9E2] p-6 rounded-xl">
-                {item}
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {t.why.map((item, index) => (
+            <div
+              key={index}
+              className="p-6 rounded-xl bg-[#f5f0eb] text-center font-semibold text-[#4b2e2e] hover:scale-105 transition"
+            >
+              {item}
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* FOOTER */}
-      <footer className="bg-[#5A3E2B] text-white py-10 text-center">
-        © 2026 ShipBridge
-      </footer>
+      <div className="text-center py-10 text-gray-500">
+        © 2026 ShipBridge. All rights reserved.
+      </div>
     </div>
   );
 }
