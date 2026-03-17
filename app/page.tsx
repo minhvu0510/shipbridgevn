@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Lang = "en" | "vi";
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
 
   const text = {
     en: {
@@ -110,7 +115,6 @@ export default function Home() {
         <h1 className="text-5xl font-bold mb-6">{t.headline}</h1>
         <p className="text-lg mb-8">{t.sub}</p>
 
-        {/* FORM */}
         <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4">
           <input placeholder="Origin" className="border p-3 rounded-lg" />
           <input placeholder="Destination" className="border p-3 rounded-lg" />
@@ -123,26 +127,36 @@ export default function Home() {
       </div>
 
       {/* ABOUT */}
-      <div className="px-10 py-20 bg-[#faf6f2] flex flex-col md:flex-row items-center gap-10">
-        
-        {/* TEXT */}
-        <div className="flex-1">
-          <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
-          <p className="text-gray-700 whitespace-pre-line">
-            {t.aboutDesc}
-          </p>
-        </div>
+      <div className="px-10 py-20 bg-[#faf6f2] flex items-center justify-center min-h-[70vh]">
+        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
+          
+          {/* IMAGE */}
+          <div
+            className={`flex justify-center transition-all duration-700 ${
+              visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+            }`}
+          >
+            <Image
+              src="/about-us.jpg"
+              alt="about"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full max-w-[500px] rounded-2xl shadow-lg"
+            />
+          </div>
 
-        {/* IMAGE */}
-        <div className="flex-1">
-          <Image
-            src="/about-us.jpg"
-            alt="about"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-full max-w-[500px] rounded-2xl shadow-lg mx-auto"
-          />
+          {/* TEXT */}
+          <div
+            className={`text-left transition-all duration-700 delay-200 ${
+              visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+            }`}
+          >
+            <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
+            <p className="text-gray-700 whitespace-pre-line leading-relaxed">
+              {t.aboutDesc}
+            </p>
+          </div>
         </div>
       </div>
 
