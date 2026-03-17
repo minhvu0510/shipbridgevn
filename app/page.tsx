@@ -10,13 +10,19 @@ export default function Home() {
 
   const text = {
     en: {
+      nav: {
+        about: "About",
+        why: "Why Us",
+        contact: "Contact",
+      },
+
       headline: "Freight Forwarding Made Simple",
       sub: "Connect with trusted forwarders. Get quotes. Ship smarter.",
       getQuote: "Get Quote",
 
       aboutTitle: "About ShipBridge",
       aboutDesc:
-        "ShipBridge is a logistics marketplace connecting SMEs with verified forwarders, helping businesses find the most efficient and cost-effective shipping solutions.\n\nOur mission is to empower small businesses with access to professional logistics services.\n\nOur vision is to become the leading logistics marketplace in Southeast Asia, starting with the China - Vietnam corridor.",
+        "ShipBridge is a logistics marketplace connecting SMEs with verified forwarders.\n\nWe help businesses reduce cost, increase transparency, and simplify the shipping process.\n\nOur mission is to empower SMEs with access to world-class logistics.\n\nOur vision is to become Southeast Asia’s leading logistics platform, starting with China - Vietnam.",
 
       whyTitle: "Why Choose ShipBridge",
       why: [
@@ -30,13 +36,19 @@ export default function Home() {
     },
 
     vi: {
+      nav: {
+        about: "Giới thiệu",
+        why: "Lý do chọn",
+        contact: "Liên hệ",
+      },
+
       headline: "Đơn giản hóa vận chuyển quốc tế",
       sub: "Kết nối forwarder uy tín. Nhận báo giá nhanh. Tối ưu chi phí.",
       getQuote: "Nhận báo giá",
 
       aboutTitle: "Về ShipBridge",
       aboutDesc:
-        "ShipBridge là nền tảng kết nối SME với các forwarder uy tín, giúp tối ưu chi phí vận chuyển và minh bạch báo giá.\n\nSứ mệnh của chúng tôi là giúp doanh nghiệp nhỏ tiếp cận dịch vụ logistics chuyên nghiệp.\n\nTầm nhìn của ShipBridge là trở thành nền tảng logistics marketplace hàng đầu Đông Nam Á, bắt đầu từ tuyến Trung Quốc - Việt Nam.",
+        "ShipBridge là nền tảng kết nối SME với các forwarder uy tín.\n\nChúng tôi giúp giảm chi phí, minh bạch giá và đơn giản hóa quy trình vận chuyển.\n\nSứ mệnh: giúp doanh nghiệp nhỏ tiếp cận logistics chuyên nghiệp.\n\nTầm nhìn: trở thành nền tảng logistics hàng đầu Đông Nam Á, bắt đầu từ tuyến Trung - Việt.",
 
       whyTitle: "Tại sao chọn ShipBridge",
       why: [
@@ -45,7 +57,7 @@ export default function Home() {
         "Báo giá nhanh",
         "Tiết kiệm chi phí",
         "Quản lý tập trung",
-        "Tập trung tuyến Trung - Việt",
+        "Tuyến Trung - Việt",
       ],
     },
   };
@@ -54,8 +66,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-black">
+      
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-10 py-6 sticky top-0 bg-white z-50 shadow-sm">
+        
         {/* LOGO */}
         <Image
           src="/logo.png"
@@ -63,14 +77,14 @@ export default function Home() {
           width={0}
           height={0}
           sizes="100vw"
-          className="w-[220px] h-auto"
+          className="w-[240px] h-auto"
         />
 
         {/* MENU */}
         <div className="flex items-center gap-6 font-semibold text-[#4b2e2e]">
-          <span>About</span>
-          <span>Why Us</span>
-          <span>Contact</span>
+          <span>{t.nav.about}</span>
+          <span>{t.nav.why}</span>
+          <span>{t.nav.contact}</span>
 
           <button
             onClick={() => setLang(lang === "en" ? "vi" : "en")}
@@ -98,18 +112,9 @@ export default function Home() {
 
         {/* FORM */}
         <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4">
-          <input
-            placeholder="Origin"
-            className="border p-3 rounded-lg"
-          />
-          <input
-            placeholder="Destination"
-            className="border p-3 rounded-lg"
-          />
-          <input
-            placeholder="Weight (kg)"
-            className="border p-3 rounded-lg"
-          />
+          <input placeholder="Origin" className="border p-3 rounded-lg" />
+          <input placeholder="Destination" className="border p-3 rounded-lg" />
+          <input placeholder="Weight (kg)" className="border p-3 rounded-lg" />
 
           <button className="bg-[#4b2e2e] text-white px-6 py-3 rounded-lg">
             {t.getQuote}
@@ -118,18 +123,34 @@ export default function Home() {
       </div>
 
       {/* ABOUT */}
-      <div className="px-10 py-20 bg-[#faf6f2]">
-        <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
-        <p className="text-gray-700 whitespace-pre-line max-w-3xl">
-          {t.aboutDesc}
-        </p>
+      <div className="px-10 py-20 bg-[#faf6f2] flex flex-col md:flex-row items-center gap-10">
+        
+        {/* TEXT */}
+        <div className="flex-1">
+          <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
+          <p className="text-gray-700 whitespace-pre-line">
+            {t.aboutDesc}
+          </p>
+        </div>
+
+        {/* IMAGE */}
+        <div className="flex-1">
+          <Image
+            src="/about-us.jpg"
+            alt="about"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full max-w-[500px] rounded-2xl shadow-lg mx-auto"
+          />
+        </div>
       </div>
 
       {/* WHY */}
-      <div className="px-10 py-20">
+      <div className="px-10 py-20 text-center">
         <h2 className="text-3xl font-bold mb-10">{t.whyTitle}</h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {t.why.map((item, index) => (
             <div
               key={index}
