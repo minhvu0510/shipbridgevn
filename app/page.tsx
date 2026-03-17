@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type Lang = "en" | "vi";
 
@@ -9,18 +9,32 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [visible, setVisible] = useState(false);
 
+  const aboutRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    setVisible(true);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (aboutRef.current) {
+      observer.observe(aboutRef.current);
+    }
+
+    return () => {
+      if (aboutRef.current) {
+        observer.unobserve(aboutRef.current);
+      }
+    };
   }, []);
 
   const text = {
     en: {
-      nav: {
-        about: "About",
-        why: "Why Us",
-        contact: "Contact",
-      },
-
+      nav: { about: "About", why: "Why Us", contact: "Contact" },
       headline: "Freight Forwarding Made Simple",
       sub: "Connect with trusted forwarders. Get quotes. Ship smarter.",
       getQuote: "Get Quote",
@@ -41,12 +55,7 @@ export default function Home() {
     },
 
     vi: {
-      nav: {
-        about: "Giới thiệu",
-        why: "Lý do chọn",
-        contact: "Liên hệ",
-      },
-
+      nav: { about: "Giới thiệu", why: "Lý do chọn", contact: "Liên hệ" },
       headline: "Đơn giản hóa vận chuyển quốc tế",
       sub: "Kết nối forwarder uy tín. Nhận báo giá nhanh. Tối ưu chi phí.",
       getQuote: "Nhận báo giá",
@@ -74,8 +83,6 @@ export default function Home() {
       
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-10 py-6 sticky top-0 bg-white z-50 shadow-sm">
-        
-        {/* LOGO */}
         <Image
           src="/logo.png"
           alt="logo"
@@ -85,7 +92,6 @@ export default function Home() {
           className="w-[240px] h-auto"
         />
 
-        {/* MENU */}
         <div className="flex items-center gap-6 font-semibold text-[#4b2e2e]">
           <span>{t.nav.about}</span>
           <span>{t.nav.why}</span>
@@ -106,7 +112,7 @@ export default function Home() {
 
       {/* HERO */}
       <div
-        className="h-[80vh] flex flex-col justify-center items-center text-center px-6"
+        className="h-[100vh] flex flex-col justify-center items-center text-center px-6"
         style={{
           backgroundImage: "url('/main-background.jpg')",
           backgroundSize: "cover",
@@ -127,13 +133,16 @@ export default function Home() {
       </div>
 
       {/* ABOUT */}
-      <div className="px-10 py-20 bg-[#faf6f2] flex items-center justify-center min-h-[70vh]">
+      <div
+        ref={aboutRef}
+        className="px-10 py-20 bg-[#faf6f2] flex items-center justify-center min-h-[120vh]"
+      >
         <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
           
           {/* IMAGE */}
           <div
             className={`flex justify-center transition-all duration-700 ${
-              visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
             }`}
           >
             <Image
@@ -148,8 +157,8 @@ export default function Home() {
 
           {/* TEXT */}
           <div
-            className={`text-left transition-all duration-700 delay-200 ${
-              visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+            className={`text-left transition-all duration-700 delay-500 ${
+              visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"
             }`}
           >
             <h2 className="text-3xl font-bold mb-6">{t.aboutTitle}</h2>
