@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+type Lang = "en" | "vi";
+
 export default function Home() {
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState<Lang>("en");
   const [visible, setVisible] = useState(false);
 
   const [form, setForm] = useState({
