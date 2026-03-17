@@ -1,155 +1,169 @@
+"use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col min-h-screen bg-white text-gray-800">
+  const [lang, setLang] = useState("en");
+  const [visible, setVisible] = useState(false);
 
-      {/* HEADER */}
-      <header className="flex justify-between items-center px-8 py-4 border-b">
-        <div className="flex items-center gap-2">
-          <Image src="/logo.png" alt="ShipBridge Logo" width={40} height={40} />
-          <span className="text-xl font-bold text-[#5A3E2B]">ShipBridge</span>
+  const [form, setForm] = useState({
+    origin: "",
+    destination: "",
+    weight: "",
+  });
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    await fetch("https://script.google.com/macros/s/AKfycbwrXQY0KTMaKiLu9PPxu5nFHqO1UtMy3QQs6You1EG_coWG9C_1uDpdE91kA6H2_qbh/exec", {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+
+    alert("Request sent!");
+    setForm({ origin: "", destination: "", weight: "" });
+  };
+
+  const text = {
+    en: {
+      headline: "Freight Forwarding Made Simple",
+      sub: "Compare quotes & ship smarter",
+      getQuote: "Get Quote",
+    },
+    vi: {
+      headline: "Đơn giản hóa vận chuyển",
+      sub: "So sánh giá & tối ưu chi phí",
+      getQuote: "Nhận báo giá",
+    },
+  };
+
+  const t = text[lang];
+
+  return (
+    <div className="min-h-screen">
+
+      {/* STICKY NAVBAR */}
+      <header className="sticky top-0 bg-white z-50 flex justify-between items-center px-8 py-4 shadow">
+
+        <div className="flex items-center gap-3">
+          <Image src="/logo.png" width={60} height={60} alt="logo" />
+          <span className="text-2xl font-bold text-[#5A3E2B]">ShipBridge</span>
         </div>
 
-        <nav className="hidden md:flex gap-6 text-gray-600">
-          <a href="#about">About</a>
-          <a href="#why">Why Us</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <div className="flex items-center gap-6">
+          <a className="font-bold text-[#5A3E2B]" href="#about">About</a>
+          <a className="font-bold text-[#5A3E2B]" href="#why">Why Us</a>
 
-        <button className="bg-[#5A3E2B] text-white px-5 py-2 rounded-lg">
-          Get Quote
-        </button>
+          <button
+            onClick={() => setLang(lang === "en" ? "vi" : "en")}
+            className="border px-3 py-1 rounded"
+          >
+            {lang === "en" ? "VI" : "EN"}
+          </button>
+
+          <button className="bg-[#5A3E2B] text-white px-4 py-2 rounded">
+            {t.getQuote}
+          </button>
+        </div>
       </header>
 
       {/* HERO */}
       <section
-        className="relative flex items-center justify-center text-center text-white h-[90vh]"
+        className={`h-screen flex flex-col justify-center items-center text-white text-center transition-all duration-1000 ${
+          visible ? "opacity-100" : "opacity-0 translate-y-10"
+        }`}
         style={{
           backgroundImage: "url('/main-background.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       >
-        <div className="bg-black/50 absolute inset-0"></div>
+        <h1 className="text-5xl font-bold mb-4">{t.headline}</h1>
+        <p className="mb-8">{t.sub}</p>
 
-        <div className="relative z-10 max-w-3xl px-6">
-          <h1 className="text-5xl font-bold mb-6">
-            Freight Forwarding Made Simple
-          </h1>
-          <p className="text-lg mb-8">
-            Connect with verified forwarders, compare quotes, and ship smarter
-            across China - Vietnam.
-          </p>
+        {/* FORM */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white text-black p-6 rounded-xl flex gap-4 shadow-lg"
+        >
+          <input
+            placeholder="Origin"
+            className="border p-2 rounded"
+            value={form.origin}
+            onChange={(e) => setForm({ ...form, origin: e.target.value })}
+          />
 
-          <div className="flex gap-4 justify-center">
-            <button className="bg-[#5A3E2B] px-6 py-3 rounded-lg text-white font-semibold">
-              Get Instant Quote
-            </button>
+          <input
+            placeholder="Destination"
+            className="border p-2 rounded"
+            value={form.destination}
+            onChange={(e) => setForm({ ...form, destination: e.target.value })}
+          />
 
-            <button className="bg-white text-[#5A3E2B] px-6 py-3 rounded-lg font-semibold">
-              Become a Partner
-            </button>
-          </div>
-        </div>
+          <input
+            placeholder="Weight (kg)"
+            className="border p-2 rounded"
+            value={form.weight}
+            onChange={(e) => setForm({ ...form, weight: e.target.value })}
+          />
+
+          <button className="bg-[#5A3E2B] text-white px-4 rounded">
+            {t.getQuote}
+          </button>
+        </form>
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="py-20 px-8 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        <Image
-          src="/about-us.jpg"
-          alt="About ShipBridge"
-          width={600}
-          height={400}
-          className="rounded-xl"
-        />
+      <section
+        id="about"
+        className={`py-20 px-8 transition-all duration-1000 ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+          <Image src="/about-us.jpg" width={500} height={300} alt="about" />
 
-        <div>
-          <h2 className="text-3xl font-bold mb-4 text-[#5A3E2B]">
-            About ShipBridge
-          </h2>
-          <p className="text-gray-600 mb-4">
-            ShipBridge is a logistics marketplace connecting SMEs with trusted freight forwarders.
-            We simplify cross-border shipping by bringing transparency, speed, and reliability.
-          </p>
-          <p className="text-gray-600">
-            No more endless WhatsApp quotes. Just one platform, multiple offers, and smarter decisions.
-          </p>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US */}
-      <section id="why" className="bg-gray-100 py-20 px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-10 text-[#5A3E2B]">
-            Why Choose ShipBridge?
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">Transparent Pricing</h3>
-              <p className="text-gray-600">
-                Compare multiple quotes instantly. No hidden fees.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">Verified Forwarders</h3>
-              <p className="text-gray-600">
-                Work only with trusted and vetted logistics partners.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">Faster Booking</h3>
-              <p className="text-gray-600">
-                Get quotes within hours instead of days.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">Cost Optimization</h3>
-              <p className="text-gray-600">
-                Save up to 20% on shipping costs.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">Centralized Platform</h3>
-              <p className="text-gray-600">
-                Manage all shipments in one dashboard.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow">
-              <h3 className="font-semibold text-lg mb-2">China - Vietnam Focus</h3>
-              <p className="text-gray-600">
-                Specialized in the most demanded trade route.
-              </p>
-            </div>
-
+          <div>
+            <h2 className="text-3xl font-bold text-[#5A3E2B] mb-4">
+              About ShipBridge
+            </h2>
+            <p>Marketplace kết nối SME với forwarder uy tín.</p>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 text-center">
-        <h2 className="text-3xl font-bold mb-6 text-[#5A3E2B]">
-          Start Shipping Smarter Today
-        </h2>
+      {/* WHY */}
+      <section id="why" className="bg-gray-100 py-20 px-8">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-[#5A3E2B] mb-10">
+            Why Choose ShipBridge?
+          </h2>
 
-        <button className="bg-[#5A3E2B] text-white px-8 py-4 rounded-lg text-lg font-semibold">
-          Request a Quote
-        </button>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              "Transparent Pricing",
+              "Verified Forwarders",
+              "Fast Quotes",
+              "Save Cost",
+              "Centralized",
+              "China-Vietnam Focus",
+            ].map((item, i) => (
+              <div key={i} className="bg-[#F3E9E2] p-6 rounded-xl">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* FOOTER */}
-      <footer id="contact" className="bg-[#5A3E2B] text-white py-10 text-center">
-        <p>© 2026 ShipBridge.vn</p>
-        <p className="text-sm mt-2">Connecting SMEs with trusted forwarders</p>
+      <footer className="bg-[#5A3E2B] text-white py-10 text-center">
+        © 2026 ShipBridge
       </footer>
-
     </div>
   );
 }
