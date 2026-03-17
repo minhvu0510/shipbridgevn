@@ -1,6 +1,10 @@
 # ShipBridge
 
+<<<<<<< HEAD
 ShipBridge.vn - Freight forwarding marketplace
+=======
+ShipBridge - Freight forwarding marketplace
+>>>>>>> ff2128404dabfdad42a0525462aad76a5dfdfd4c
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
