@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [lang, setLang] = useState("vi");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shipmentType, setShipmentType] = useState("export");
   const [formData, setFormData] = useState({
     name: "",
@@ -213,6 +214,8 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
 
   const content = t[lang];
 
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       
@@ -224,10 +227,11 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
               alt="ShipBridge"
               width={400}
               height={100}
-              className="h-20 w-auto"
+              className="h-16 sm:h-20 w-auto"
             />
           </div>
 
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8 font-medium text-gray-700">
             <a href="#home" className="hover:text-[#9B7653]">{content.nav.home}</a>
             <a href="#features" className="hover:text-[#9B7653]">{content.nav.features}</a>
@@ -245,7 +249,42 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
 
             <a href="#quote" className="bg-[#9B7653] text-white px-6 py-2 rounded-lg hover:bg-[#8B6643]">{content.nav.quote}</a>
           </div>
+
+          {/* Mobile Hamburger Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex flex-col gap-1.5 p-2"
+            aria-label="Menu"
+          >
+            <span className={`block w-7 h-0.5 bg-gray-800 transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`block w-7 h-0.5 bg-gray-800 transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-7 h-0.5 bg-gray-800 transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </button>
         </nav>
+
+        {/* Mobile Menu Dropdown */}
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-screen' : 'max-h-0'}`}>
+          <div className="px-4 py-4 bg-white border-t border-gray-200 space-y-3">
+            <a href="#home" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.home}</a>
+            <a href="#features" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.features}</a>
+            <a href="#how-it-works" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.how}</a>
+            <a href="#about" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.about}</a>
+            <a href="#contact" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.contact}</a>
+            
+            <button 
+              onClick={() => {
+                setLang(lang === "vi" ? "en" : "vi");
+                closeMobileMenu();
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg border-2 border-gray-300 hover:border-[#9B7653] hover:text-[#9B7653] text-gray-700 font-medium"
+            >
+              <span className="text-xl">🌐</span>
+              <span>{lang === "vi" ? "English" : "Tiếng Việt"}</span>
+            </button>
+
+            <a href="#quote" onClick={closeMobileMenu} className="block w-full bg-[#9B7653] text-white py-3 px-4 rounded-lg hover:bg-[#8B6643] text-center font-semibold">{content.nav.quote}</a>
+          </div>
+        </div>
       </header>
 
       <section 
