@@ -237,9 +237,10 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
             
             <button 
               onClick={() => setLang(lang === "vi" ? "en" : "vi")} 
-              className="text-gray-700 hover:text-[#9B7653] font-semibold"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-gray-300 hover:border-[#9B7653] hover:text-[#9B7653] transition-colors"
             >
-              {lang === "vi" ? "EN" : "VI"}
+              <span className="text-xl">🌐</span>
+              <span className="font-semibold">{lang === "vi" ? "EN" : "VI"}</span>
             </button>
 
             <a href="#quote" className="bg-[#9B7653] text-white px-6 py-2 rounded-lg hover:bg-[#8B6643]">{content.nav.quote}</a>
@@ -256,7 +257,7 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
       >
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center min-h-[60vh] flex flex-col justify-center">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-            {content.hero.title1} <span className="text-gray-800">{content.hero.title2}</span>
+            {content.hero.title1} <span className="text-[#9B7653]">{content.hero.title2}</span>
           </h1>
           <p className="text-lg sm:text-xl text-white mb-8 max-w-3xl mx-auto">
             {content.hero.subtitle}
