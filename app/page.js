@@ -39,7 +39,7 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
     vi: {
       nav: {
         home: "Trang Chủ",
-        features: "Tính Năng",
+        features: "Forwarders",
         how: "Cách Hoạt Động",
         about: "Về Chúng Tôi",
         contact: "Liên Hệ",
@@ -234,7 +234,7 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8 font-medium text-gray-700">
             <a href="#home" className="hover:text-[#9B7653]">{content.nav.home}</a>
-            <a href="#features" className="hover:text-[#9B7653]">{content.nav.features}</a>
+            <a href="/forwarders" className="hover:text-[#9B7653]">{content.nav.features}</a>
             <a href="#how-it-works" className="hover:text-[#9B7653]">{content.nav.how}</a>
             <a href="#about" className="hover:text-[#9B7653]">{content.nav.about}</a>
             <a href="#contact" className="hover:text-[#9B7653]">{content.nav.contact}</a>
@@ -266,7 +266,7 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-screen' : 'max-h-0'}`}>
           <div className="px-4 py-4 bg-white border-t border-gray-200 space-y-3">
             <a href="#home" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.home}</a>
-            <a href="#features" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.features}</a>
+            <a href="/forwarders" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.features}</a>
             <a href="#how-it-works" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.how}</a>
             <a href="#about" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.about}</a>
             <a href="#contact" onClick={closeMobileMenu} className="block py-3 px-4 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">{content.nav.contact}</a>
