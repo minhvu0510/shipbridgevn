@@ -126,7 +126,7 @@ ${lang === "vi" ? "Ghi chú" : "Notes"}: ${formData.notes}
     en: {
       nav: {
         home: "Home",
-        features: "Features",
+        features: "Forwarders",
         how: "How It Works",
         about: "About Us",
         contact: "Contact",
